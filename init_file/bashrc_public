@@ -1,0 +1,88 @@
+##########################
+######## neagle2009@gmail.com ##################
+##
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+needInPath="
+$HOME/bin
+"
+for p in $needInPath
+do
+    if [ -d "$p" ] ; then
+        PATH="$p:${PATH}"
+    fi
+done
+
+if [ -f $HOME/.bin/cdargs-bash.sh ] ;then
+    source $HOME/.bin/cdargs-bash.sh
+fi
+
+#cd 自动纠错
+shopt -s cdspell
+
+#no dumps history
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+
+#alias 
+alias ..='cd ../'
+alias ...='cd ../../'
+alias diff='diff -u'
+alias ll='ls -lhtr'
+alias mv="mv -i"
+alias cp="cp -i"
+
+#function
+function mgrep() {
+    path=${3:-$PWD}
+    if [ -n "$2" ]; then
+        word="$1"
+        inc="$2"
+        shift
+        shift
+        sudo grep --color -n -w "${word}" --include="${inc}" -r "$path"
+    else 
+        word="$1"
+        shift
+        sudo grep --color -n -w "${word}" -r "$path"
+    fi
+}
+
+function bak() {
+    if [ -f "$1" ]; then
+        cp "$1" ${1}.bak.`date +"%Y%m%d%H%M%S"`
+    elif [ -d "$1" ]; then
+        cp -r "$1" ${1}.bak.`date +"%Y%m%d%H%M%S"`
+    else
+        echo "sorry, only support file and dir"
+    fi
+}
+
+function psg() {
+    ps -ef | grep "$@"
+}
+
+function mpgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    sudo grep --color -n -w "${word}" --include="*.php" -r "$path"
+}
+
+function impgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    sudo grep -i --color -n -w "${word}" --include="*.php" -r "$path"
+}
+
+function mppgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    sudo grep --color -n "${word}" --include="*.php" -r "$path"
+}
