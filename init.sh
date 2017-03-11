@@ -3,7 +3,7 @@
 ################ 1. init config ################ 
 ZIP_FILE="init-master.zip"
 UNZIP_FOLDER=`basename "${ZIP_FILE}" ".zip"`
-ONLINE_FILE="https://codeload.github.com/neagle2009/init/zip/master.zip"
+ONLINE_FILE="https://codeload.github.com/neagle2009/init/zip/master"
 
 function installCmd() {
     list='/usr/bin/apt /usr/bin/yum'
@@ -25,7 +25,7 @@ function installZsh() {
 }
 
 function getOnlinFile() {
-    wget -O "${ZIP_FILE}" -c "${ONLINE_FILE}"
+    test -f "${ONLINE_FILE}" ||  wget -O "${ZIP_FILE}" -c "${ONLINE_FILE}"
     if [ ! -f "${ZIP_FILE}" ] ;then
         echo "not found file ${ZIP_FILE}"
         exit
@@ -43,7 +43,7 @@ function installConfigFile() {
 
     #2. install public bin
     hideBinDir="$HOME/.bin"
-    if [ -d "${hideBinDir}" ] ;then
+    if [ ! -d "${hideBinDir}" ] ;then
         mkdir "${hideBinDir}"
     fi
 
@@ -87,4 +87,4 @@ installConfigFile
 installZsh
 downloadCdargs
 installVundle
-cleanTrash
+#cleanTrash
