@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ################ 1. init config ################ 
-ZIP_FILE="neagle2009rc-master.zip"
+ZIP_FILE="init-master.zip"
 UNZIP_FOLDER=`basename "${ZIP_FILE}" ".zip"`
-ONLINE_FILE="https://github.com/neagle2009/neagle2009rc/archive/master.zip"
+ONLINE_FILE="https://codeload.github.com/neagle2009/init/zip/master.zip"
 
 function installCmd() {
     list='/usr/bin/apt /usr/bin/yum'
