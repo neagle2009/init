@@ -36,7 +36,7 @@ function getOnlinFile() {
 function installConfigFile() {
 
     #1. dircolor config
-    colorFile="$HMOE/.dircolors"
+    colorFile="$HOME/.dircolors"
     if [ ! -f "${colorFile}" ] ;then
         cat ${UNZIP_FOLDER}/init_file/dir_colors >> ${colorFile}
     fi
