@@ -11,6 +11,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+## add path
 needInPath="
 $HOME/bin
 "
@@ -21,9 +22,17 @@ do
     fi
 done
 
-if [ -f $HOME/.bin/cdargs-bash.sh ] ;then
-    source $HOME/.bin/cdargs-bash.sh
-fi
+## include file
+sourceList="
+$HOME/.git-prompt.sh
+$HOME/.bin/cdargs-bash.sh
+"
+for s in $sourceList
+do
+    if [ -f $s ] ;then
+        source $s
+    fi  
+done
 
 #cd 自动纠错
 shopt -s cdspell
