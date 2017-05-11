@@ -200,6 +200,7 @@ function ca ()
     # add the alias to the list of bookmarks
     cdargs --add=":$1:`pwd`"; 
     sort -u "$HOME/.cdargs" -o "$HOME/.cdargs";
+    #cat $HOME/.cdargs | sort -u | tee $HOME/.cdargs &>/dev/null
 }
 
 # --------------------------------------------- #
