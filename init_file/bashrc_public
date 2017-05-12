@@ -24,7 +24,6 @@ done
 
 ## include file
 sourceList="
-$HOME/.git-prompt.sh
 $HOME/.bin/cdargs-bash.sh
 "
 for s in $sourceList

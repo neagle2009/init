@@ -4,6 +4,7 @@
 ZIP_FILE="init-master.zip"
 UNZIP_FOLDER=`basename "${ZIP_FILE}" ".zip"`
 ONLINE_FILE="https://codeload.github.com/neagle2009/init/zip/master"
+INIT_PATH="$HOME/.init"
 
 function installCmd() {
     list='/usr/bin/apt /usr/bin/yum'
@@ -15,10 +16,15 @@ function installCmd() {
         fi
     done
 }
+function sourceFile() {
+    if [ -f $1 ] ;then
+        echo "source $1" >> $HOME/.bashrc
+    fi
+}
 INSTALL=`installCmd`
 
 function installZsh() {
-    ${INSTALL} zsh
+    ${INSTALL} -y zsh
     wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
     test -f /bin/zsh && chsh -s /bin/zsh
     cp -r "${UNZIP_FOLDER}/init_file/zshrc" $HOME/.zshrc
@@ -47,6 +53,11 @@ function installConfigFile() {
         mkdir "${hideBinDir}"
     fi
 
+    #3. init
+    if [ ! -d "${INIT_PATH}" ] ;then
+        mkdir $INIT_PATH
+    fi
+
     #3. install vim config
     cat ${UNZIP_FOLDER}/init_file/vimrc/vimrc > $HOME/.vimrc
     vimdir="$HOME/.vim"
@@ -54,6 +65,8 @@ function installConfigFile() {
         mkdir "${vimdir}"
     fi
     cp -r "${UNZIP_FOLDER}/init_file/vimrc/plugin" "${vimdir}/plugin"
+
+    cat "${UNZIP_FOLDER}/init_file/bashrc_public" >> $HOME/.bashrc
 }
 
 function cleanTrash() {
@@ -61,10 +74,11 @@ function cleanTrash() {
     rm "${ZIP_FILE}"
 }
 
-function downloadCdargs() {
-    $INTALL cdargs &> /dev/null
+function installCdargs() {
+    $INTALL -y cdargs &> /dev/null
     type cdargs &> /dev/null || (
-        mv "${UNZIP_FOLDER}/init_file/cdargs-bash.sh" "$HOME/.bin/cdargs-bash.sh" 
+        mv "${UNZIP_FOLDER}/init_file/cdargs-bash.sh" "${INIT_PATH}/cdargs-bash.sh" 
+        sourceFile "${INIT_PATH}/cdargs-bash.sh"
     )
 }
 
@@ -80,11 +94,23 @@ function installVundle() {
     #vim +PluginInstall ctags.vim +qall
 }
 
+function installGit() {
+    $INSTALL -y git
+
+    wget -O "${INIT_PATH}/.git-completion.bash" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash'
+    sourceFile "${INIT_PATH}/.git-completion.bash" 
+
+    wget -O "${INIT_PATH}/.git-prompt.sh" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh'
+    sourceFile "${INIT_PATH}/.git-prompt.sh"
+    
+    echo 'export GIT_PS1_SHOWDIRTYSTATE=1' >> ~/.bashrc
+}
+
 ################ 2. setting ################ 
 
 getOnlinFile
 installConfigFile
 installZsh
-downloadCdargs
+installCdargs
 installVundle
 #cleanTrash
