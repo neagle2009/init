@@ -97,14 +97,18 @@ function installVundle() {
 function installGit() {
     $INSTALL -y git
 
-    wget -O "${INIT_PATH}/.git-completion.bash" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash'
-    sourceFile "${INIT_PATH}/.git-completion.bash" 
+    if [ "${SHELL}"=="/bin/bash" ]; then
+        wget -O "${INIT_PATH}/.git-completion.bash" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash'
+        sourceFile "${INIT_PATH}/.git-completion.bash" 
 
-    wget -O "${INIT_PATH}/.git-prompt.sh" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh'
-    sourceFile "${INIT_PATH}/.git-prompt.sh"
+        wget -O "${INIT_PATH}/.git-prompt.sh" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh'
+        sourceFile "${INIT_PATH}/.git-prompt.sh"
     
-    echo 'export GIT_PS1_SHOWDIRTYSTATE=1' >> ~/.bashrc
-    echo 'export PS1=\'\n \[\e[0;36m\]\u@\h(10.94.96.105)\[\e[0;30;1m\]:\[\e[0;33m\]\w $(__git_ps1) \[\e[0;30;1m\] \D{%Y-%m-%d %H:%M:%S} \[\e[0m\] \n[\e[0    ;31m\]!\!\[\e[0;37;1m\]\$\[\e[0m] \' >> ~/.bashrc
+        echo 'export GIT_PS1_SHOWDIRTYSTATE=1' >> ~/.bashrc
+        echo 'export PS1=\'\n \[\e[0;36m\]\u@\h(10.94.96.105)\[\e[0;30;1m\]:\[\e[0;33m\]\w $(__git_ps1) \[\e[0;30;1m\] \D{%Y-%m-%d %H:%M:%S} \[\e[0m\] \n[\e[0    ;31m\]!\!\[\e[0;37;1m\]\$\[\e[0m] \' >> ~/.bashrc
+    else
+
+    fi
 }
 
 ################ 2. setting ################ 
