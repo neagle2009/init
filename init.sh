@@ -97,7 +97,7 @@ function installVundle() {
 function installGit() {
     $INSTALL -y git
 
-    if [ "${SHELL}"=="/bin/bash" ]; then
+    if [ "${SHELL}" = "/bin/bash" ]; then
         wget -O "${INIT_PATH}/.git-completion.bash" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash'
         sourceFile "${INIT_PATH}/.git-completion.bash" 
 
