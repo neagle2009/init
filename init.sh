@@ -21,7 +21,12 @@ function sourceFile() {
         echo "source $1" >> $HOME/.bashrc
     fi
 }
+
 INSTALL=`installCmd`
+
+function installBase() {
+    ${INSTALL} -y vim git net-tools wget curl telnet rsync scp dos2unix ctags unzip unrar cmake m4 gcc ntpdate gcc-c++ autoconf automake patch openssl-devel
+}
 
 function installZsh() {
     ${INSTALL} -y zsh
@@ -75,7 +80,14 @@ function cleanTrash() {
 }
 
 function installCdargs() {
-    $INTALL -y cdargs &> /dev/null
+    (
+
+    wget -c 'http://www.skamphausen.de/downloads/cdargs/cdargs-1.35.tar.gz'
+    tar -xzf cdargs-1.35.tar.gz
+    cd cdargs-1.35
+    ./configure
+    make && sudo make install)
+
     type cdargs &> /dev/null || (
         mv "${UNZIP_FOLDER}/init_file/cdargs-bash.sh" "${INIT_PATH}/cdargs-bash.sh" 
         sourceFile "${INIT_PATH}/cdargs-bash.sh"
@@ -111,6 +123,7 @@ function installGit() {
 
 ################ 2. setting ################ 
 
+installBase
 getOnlinFile
 installConfigFile
 #installZsh
