@@ -64,6 +64,8 @@ function installConfigFile() {
     fi
 
     #3. install vim config
+	mkdir -p ~/.vim/bundle
+	git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
     cat ${UNZIP_FOLDER}/init_file/vimrc/vimrc > $HOME/.vimrc
     vimdir="$HOME/.vim"
     if [ ! -d "$vimdir" ] ;then

@@ -1,4 +1,3 @@
-"""""""""""""
 """" neagle2009@gmail.com 
 
 "显示行号
@@ -14,7 +13,8 @@ set softtabstop=4
 "每一级缩进多少个空格
 set shiftwidth=4
 "tab扩展为空格(noexpandtab)
-set expandtab
+set noexpandtab
+"set expandtab
 "[range]retab 重新调整空格
 "
 "use twice withd of ASCII char
@@ -33,10 +33,17 @@ map <S-Left> :tabp<CR>
 map <S-Right> :tabn<CR>
 
 
-"插件部分
-"au FileType php setlocal dict+=/home/acer/.vim/dict/php_func.list.txt
-"autocmd FileType php set keywordprg=pman
-"let g:ackprg="<custom-ack-path-goes-here> -H --nocolor --nogroup --column"
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-"let g:winManagerWindowLayout='FileExplorer|TagList'
-"nmap wm :WMToggle<cr>
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
