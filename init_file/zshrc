@@ -2,19 +2,27 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=$HOME/.oh-my-zsh
+  export ZSH="$HOME/.oh-my-zsh"
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
+# Set name of the theme to load --- if set to "random", it will
+# load a random theme each time oh-my-zsh is loaded, in which case,
+# to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
-ZSH_THEME="ys"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="agnoster"
+
+
+# Set list of themes to pick from when loading at random
+# Setting this variable when ZSH_THEME=random will cause zsh to load
+# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# If set to an empty array, this variable will have no effect.
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
@@ -42,18 +50,26 @@ ZSH_THEME="ys"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-HIST_STAMPS="yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
+# HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+  git
+  zsh-completions
+)
 
+autoload -U compinit && compinit
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -61,7 +77,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-export LANG=en_US.UTF-8
+# export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -84,3 +100,139 @@ export LANG=en_US.UTF-8
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+#
+#
+# private ######################################
+#
+#
+zstyle ':completion:*' rehash true
+
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+if [ -d ${HOME}/bin ] ; then
+    PATH=${HOME}/bin:"${PATH}"
+fi
+
+#if [ -f $HOME/.bin/cdargs-bash.sh ] ;then
+#    source $HOME/.bin/cdargs-bash.sh
+#fi
+
+#no dumps history
+export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
+
+#alias
+alias ..='cd ../'
+alias ...='cd ../../'
+alias diff='diff -u'
+alias ll='ls -lhtr'
+alias mv="mv -i"
+alias cp="cp -i"
+
+#function
+function mgrep() {
+    path=${3:-$PWD}
+    if [ -n "$2" ]; then
+        word="$1"
+        inc="$2"
+        shift
+        shift
+        sudo grep --color -n -w "${word}" --include="${inc}" -r "$path"
+    else
+        word="$1"
+        shift
+        sudo grep --color -n -w "${word}" -r "$path"
+    fi
+}
+
+function bak() {
+    if [ -f "$1" ]; then
+        cp "$1" ${1}.bak.`date +"%Y%m%d%H%M%S"`
+    elif [ -d "$1" ]; then
+        cp -r "$1" ${1}.bak.`date +"%Y%m%d%H%M%S"`
+    else
+        echo "sorry, only support file and dir"
+    fi
+}
+
+function psg() {
+    ps -ef | grep "$@"
+}
+
+function mpgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    grep --color -n -w "${word}" --include="*.php" -r "$path"
+}
+
+function impgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    grep -i --color -n -w "${word}" --include="*.php" -r "$path"
+}
+
+function mppgrep() {
+    word="$1"
+    path=${2:-$PWD}
+    grep --color -n "${word}" --include="*.php" -r "$path"
+}
+
+
+function imageenxx() {
+    for file in *.{jpg,gif,png}
+    do
+        xxd $file "${file}.xx"
+        rm $file
+    done
+}
+
+function imagedexx() {
+    for file in *.xx
+    do
+        xxd -r $file `basename ${file} .xx`
+        rm $file
+    done
+}
+
+function gitphpcheck() {
+    for i in `git status -s | grep "\.php" | awk '{print $2;}'`
+    do
+        php -l $i
+    done
+}
+
+sourceList="
+$HOME/.git-prompt.sh
+"
+for sl in $sourceList
+do
+	if [ -f $sl ]; then
+		source $sl
+	fi
+done
+
+###didi######
+alias go105="ssh xiaoju@10.94.96.105"
+alias go1633="ssh xiaoju@10.10.8.163"
+
+export PATH="$PATH:/usr/local/go/bin"
+export GOPATH="/home/neagle/goproj"
+
+######virtualBox#####
+os_name="centos7"
+alias startvm="vboxmanage startvm --type headless ${os_name}"
+alias stopvm="vboxmanage controlvm ${os_name} poweroff"
+alias pausevm="vboxmanage controlvm ${os_name} pause"
+alias resumevm="vboxmanage controlvm ${os_name} resume"
+alias gocentos7="ssh 192.168.31.195"
+alias qqyun="ssh -p 65522 neagle@118.24.48.177"
+alias touchpadoff="synclient touchpadoff=1"
+alias touchpadon="synclient touchpadoff=0"
+alias fg="fg %"
+

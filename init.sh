@@ -33,6 +33,8 @@ function installZsh() {
     wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
     test -f /bin/zsh && chsh -s /bin/zsh
     cp -r "${UNZIP_FOLDER}/init_file/zshrc" $HOME/.zshrc
+	git clone https://github.com/zsh-users/zsh-completions $HOME/.oh-my-zsh/custom/plugins/zsh-completions
+	(git clone https://github.com/powerline/fonts.git && cd fonts && ./install.sh)
 }
 
 function getOnlinFile() {
