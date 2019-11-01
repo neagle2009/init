@@ -94,3 +94,6 @@ function mppgrep() {
     path=${2:-$PWD}
     sudo grep --color -n "${word}" --include="*.php" -r "$path"
 }
+function fping() {
+	ping "$@" | while read pong; do echo "$(date +'%Y-%m-%d %H:%M:%S') $pong"; done
+}
