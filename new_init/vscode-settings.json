@@ -26,7 +26,8 @@
                 // Make changes here to the powershell.exe profile.
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "name": "Windows PowerShell",
-                "fontFace":  "Cascadia Code PL",
+                //"fontFace":  "Cascadia Code PL",
+                "fontFace": "Menlo for Powerline",
                 "colorScheme": "Campbell",
                 "commandline": "powershell.exe",
                 "hidden": false
@@ -51,7 +52,7 @@
                 "name": "Ubuntu-20.04",
                 //"fontFace": "Consolas",
                 //"fontFace": "Cascadia Mono Italic",
-                "fontFace": "Courier New Italic",
+                "fontFace": "Menlo for Powerline",
                 "fontSize": 12,
                 "historySize": 9001,
                 "colorScheme": "Campbell",
