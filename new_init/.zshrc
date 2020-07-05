@@ -8,7 +8,8 @@ export ZSH="/home/neagle/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -111,6 +112,10 @@ alias diff='diff -u'
 alias ll='ls -lhtr'
 alias mv="mv -i"
 alias cp="cp -i"
+
+if [ -f "/home/neagle/code/myself/private/proxy.sites.blocklist" ]; then
+	alias proxyblocklist="echo ''&& cat /home/neagle/code/myself/private/proxy.sites.blocklist && echo '' && echo ''"
+fi
 
 # wsl chinese display utf8 code
 export GIT_PS1_SHOWDIRTYSTATE=1
