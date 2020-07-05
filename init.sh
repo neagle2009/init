@@ -112,6 +112,8 @@ function installVundle() {
 
 function installGit() {
     $INSTALL -y git
+	git config --global user.email "gu217@126.com"
+	git config --global user.name "neagle"
 
     if [ "${SHELL}" = "/bin/bash" ]; then
         wget -O "${INIT_PATH}/.git-completion.bash" 'https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash'
