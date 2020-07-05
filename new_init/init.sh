@@ -40,17 +40,20 @@ function installZsh() {
 	fi
 
     test -f /bin/zsh && chsh -s /bin/zsh
-    #cp -r "${CURRENT_DIR}/new_init/zshrc" $HOME/.zshrc
+    cp -r "${CURRENT_DIR}/new_init/zshrc" $HOME/.zshrc
 	git clone https://github.com/zsh-users/zsh-completions $HOME/.oh-my-zsh/custom/plugins/zsh-completions
 	if [ ! -e "$HOME/fonts" ]; then
 		(cd $HOME && git clone https://github.com/powerline/fonts.git && cd fonts && ./install.sh)
 	fi
+
+	#ZSH--agnoster主题乱码问题 ** wsl install fonts in windows , then set windows terminal fonts
+	#https://blog.csdn.net/Jonder_wu/article/details/100529721
 }
 
 function installGoAndConfigGolang() {
-	if [ test which go ]; then
-		go env -w GO111MODULE=on
-		go env -w GOPROXY=https://goproxy.io,direct
+	if [ -f /usr/bin/go ]; then
+		go env -w GO111MODULE="on"
+		go env -w GOPROXY="https://goproxy.io,direct"
 	fi
 
 }
