@@ -36,11 +36,11 @@ function installZsh() {
 	if [ $? -eq 0 ]; then
 		sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 	else
-		sh ${CURRENT_DIR}/init_files/new_init/zsh_install.sh
+		sh ${CURRENT_DIR}/init_files/newInit/zsh_install.sh
 	fi
 
     test -f /bin/zsh && chsh -s /bin/zsh
-    cp -r "${CURRENT_DIR}/new_init/zshrc" $HOME/.zshrc
+    cp -r "${CURRENT_DIR}/newInit/zshrc" $HOME/.zshrc
 	git clone https://github.com/zsh-users/zsh-completions $HOME/.oh-my-zsh/custom/plugins/zsh-completions
 	if [ ! -e "$HOME/fonts" ]; then
 		(cd $HOME && git clone https://github.com/powerline/fonts.git && cd fonts && ./install.sh)
