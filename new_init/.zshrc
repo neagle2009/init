@@ -114,7 +114,7 @@ alias mv="mv -i"
 alias cp="cp -i"
 
 if [ -f "/home/neagle/code/myself/private/proxy.sites.blocklist" ]; then
-	alias proxyblocklist="echo ''&& cat /home/neagle/code/myself/private/proxy.sites.blocklist && echo '' && echo ''"
+	alias proxyblocklist="cat /home/neagle/code/myself/private/proxy.sites.blocklist| xargs | tr ' ' ';'"
 fi
 
 # wsl chinese display utf8 code
@@ -132,12 +132,19 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
+function addToPATH() {
+	case ":$PATH:" in
+		*":$1:"*) :;; # already there
+		*) PATH="$1:$PATH";; # or PATH="$PATH:$1"
+	esac
+}
+
 ## add path
 needInPath=("$HOME/bin" "$HOME/go/bin")
 for p in ${needInPath[@]}
 do
     if [ -d $p ] ;then
-        export PATH="$p:${PATH}"
+		addToPATH "$p"
     fi
 done
 
