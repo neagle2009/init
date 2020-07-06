@@ -132,9 +132,23 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-if [ -d ${HOME}/bin ] ; then
-    PATH=${HOME}/bin:"${PATH}"
-fi
+## add path
+needInPath=("$HOME/bin" "$HOME/go/bin")
+for p in ${needInPath[@]}
+do
+    if [ -d $p ] ;then
+        export PATH="$p:${PATH}"
+    fi
+done
+
+## include file
+sourceList=("$HOME/.bin/cdargs-bash.sh")
+for s in ${sourceList[@]}
+do
+    if [ -f $s ] ;then
+        source $s
+    fi  
+done
 
 function psg() {
     ps -ef | grep "$@"
@@ -164,3 +178,4 @@ function bak() {
         echo "sorry, only support file and dir"
     fi
 }
+
