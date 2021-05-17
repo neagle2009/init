@@ -39,6 +39,9 @@ shopt -s cdspell
 #no dumps history
 export HISTCONTROL=$HISTCONTROL${HISTCONTROL+,}ignoredups
 
+#To disable the beep also in less (i.e. also in man pages and when using "git diff")
+export LESS="$LESS -R -Q"
+
 #alias 
 alias ..='cd ../'
 alias ...='cd ../../'
