@@ -25,7 +25,7 @@ function sourceFile() {
 INSTALL=`installCmd`
 
 function installBase() {
-    ${INSTALL} -y vim git net-tools wget curl telnet rsync scp dos2unix ctags unzip unrar cmake m4 gcc ntpdate gcc-c++ autoconf automake patch openssl-devel jq
+    ${INSTALL} -y vim git net-tools wget curl telnet rsync scp dos2unix ctags unzip unrar cmake m4 gcc ntpdate gcc-c++ autoconf automake patch openssl-devel jq cloc
 }
 
 function installZsh() {
