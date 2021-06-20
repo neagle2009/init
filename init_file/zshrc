@@ -220,6 +220,10 @@ done
 
 export PATH="$PATH:/usr/local/go/bin"
 
+#go proxy export
+go env -w GO111MODULE=on
+go env -w GOPROXY=https://goproxy.cn,direct
+
 ######virtualBox#####
 os_name="centos7"
 alias startvm="vboxmanage startvm --type headless ${os_name}"
@@ -232,3 +236,5 @@ alias qqyun="ssh -p 65522 neagle@118.24.48.177"
 #alias touchpadon="synclient touchpadoff=0"
 alias fg="fg %"
 
+
+[[ -s "/home/neagle/.gvm/scripts/gvm" ]] && source "/home/neagle/.gvm/scripts/gvm"
